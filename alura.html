@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segurança Digital - Identificando Golpes</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --danger: #dc2626;
+            --warning: #d97706;
+            --success: #16a34a;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a, var(--primary));
+            color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        section {
+            background: var(--card);
+            padding: 1.8rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #0f172a;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Estilo das mensagens simuladas */
+        .messages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .msg-card {
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 1.2rem;
+            background-color: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .msg-header {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .msg-bubble {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--warning);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .fake-link {
+            color: var(--primary);
+            text-decoration: underline;
+            font-weight: bold;
+            word-break: break-all;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .risk-box {
+            display: none;
+            margin-top: 0.8rem;
+            padding: 0.8rem;
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        /* Lista de sinais de alerta */
+        .alerts-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .alerts-list li {
+            background: #fffbeb;
+            border-left: 4px solid var(--warning);
+            padding: 0.8rem 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Formulário de Registro */
+        .form-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 220px;
+            padding: 0.7rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-success:hover {
+            background-color: #15803d;
+        }
+
+        .user-notes {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .user-notes li {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🛡️ Prática de Segurança Digital</h1>
+        <p>Depois de tantas descobertas, chegou o momento de praticar. Analise mensagens recebidas e identifique possíveis sinais de golpe.</p>
+    </header>
+
+    <div class="container">
+        <!-- Seção 1: Exemplos de Mensagens -->
+        <section>
+            <h2>1. Observe exemplos de mensagens com links suspeitos</h2>
+            <p>Leia as mensagens abaixo e clique em <strong>"Identificar Riscos"</strong> para descobrir os elementos que indicam perigo.</p>
+            
+            <div class="messages-grid">
+                <!-- Mensagem 1 -->
+                <div class="msg-card">
+                    <div>
+                        <div class="msg-header">📱 SMS de +55 (11) 99876-0000</div>
+                        <div class="msg-bubble">
+                            "AVISO URGENTE: Sua conta bancária será bloqueada hoje às 18h por falta de atualização cadastral. Evite o bloqueio acessando: <span class="fake-link">http://banco-seguro-atualiza.xyz</span>"
+                        </div>
+                    </div>
+                    <div>
+                        <button onclick="toggleRisk('risk1')">Identificar Riscos</button>
+                        <div id="risk1" class="risk-box">
+                            <strong>Elementos de Risco:</strong><br>
+                            • Senso de urgência extrema ("hoje às 18h").<br>
+                            • Ameaça de bloqueio.<br>
+                            • Link suspeito com domínio estranho (".xyz") que não pertence a um banco oficial.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensagem 2 -->
+                <div class="msg-card">
+                    <div>
+                        <div class="msg-header">💬 WhatsApp - Número Desconhecido</div>
+                        <div class="msg-bubble">
+                            "Parabéns! Você foi selecionado para resgatar um vale-compras de R$ 1.500,00. Restam apenas 3 cupons! Clique rápido para garantir o seu: <span class="fake-link">http://bit.ly</span>"
+                        </div>
+                    </div>
+                    <div>
+                        <button onclick="toggleRisk('risk2')">Identificar Riscos</button>
+                        <div id="risk2" class="risk-box">
+                            <strong>Elementos de Risco:</strong><br>
+                            • Promessa de dinheiro fácil ou prêmio sem participação.<br>
+                            • Escassez falsa ("Restam apenas 3 cupons").<br>
+                            • Uso de link encurtado que esconde o destino real.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensagem 3 -->
+                <div class="msg-card">
+                    <div>
+                        <div class="msg-header">📧 E-mail: entrega@correios-pendencia.net</div>
+                        <div class="msg-bubble">
+                            "Prezado cliente, sua encomenda ficou retida na alfândega. Para liberar a entrega, pague a taxa de R$ 24,90 no link: <span class="fake-link">://pagar-taxa-encomenda.com</span>"
+                        </div>
+                    </div>
+                    <div>
+                        <button onclick="toggleRisk('risk3')">Identificar Riscos</button>
+                        <div id="risk3" class="risk-box">
+                            <strong>Elementos de Risco:</strong><br>
+                            • Remetente não oficial (não termina em .gov.br).<br>
+                            • Pedido de pagamento rápido via link externo.<br>
+                            • Mensagem genérica ("Prezado cliente", sem seu nome).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 2: Sinais de Alerta -->
+        <section>
+            <h2>2. Principais Sinais de Alerta</h2>
+            <p>Fique atento aos elementos mais comuns usados por golpistas:</p>
+            <br>
+            <ul class="alerts-list">
+                <li><strong>🚨 Senso de Urgência e Ameaça:</strong> Frases como "sua conta será cancelada", "última chance" ou "pague em 2 horas" servem para fazer você agir por impulso sem pensar.</li>
+                <li><strong>🔗 Links Estranhos ou Encurtados:</strong> Endereços web com erros de digitação, terminações incomuns (.xyz, .top) ou encurtadores que escondem o site verdadeiro.</li>
